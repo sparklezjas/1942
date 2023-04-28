@@ -129,13 +129,20 @@
 	}
 
 	function detectCollision(){
-for(var i=0; i<bullets.length; i++){
+	for(var i=0; i<bullets.length; i++){
     for(var j=0; j<enemies.length; j++){
-    if(Math.abs(bullets[i].x - enemies[j].x) < 10 && Math.abs(bullets[i].y - enemies[j].y) < 10){
-        score+=20;
-		var snd = new Audio("Explosion.wav")
-		snd.play()
-    }
+		if (Math.abs(bullets[i].x - enemies[j].x) < 20 && Math.abs(bullets[i].y - enemies[j].y) < 20) {
+    score += 100;
+    var snd = new Audio("Explosion.wav")
+    snd.play();
+    var enemyElement = document.getElementsByClassName("enemy1")[j];
+    enemyElement.style.backgroundImage = "url('explosion.gif')";
+    setTimeout(function() {
+        enemyElement.parentNode.removeChild(enemyElement);
+    }, 1000);
+    enemies.splice(j, 1);
+    bullets.splice(i, 1);
+}
     }
 }
 }
@@ -156,13 +163,13 @@ for(var i=0; i<enemies.length; i++){
 
 	document.onkeydown = function(moveHero){
 		if (moveHero.keyCode == 37){
-			hero.x -= 10;
+			hero.x -= 20;
 		} else if (moveHero.keyCode == 39){
-			hero.x += 10;
+			hero.x += 20;
 		} else if (moveHero.keyCode == 40){
-			hero.y += 10;
+			hero.y += 20;
 		} else if (moveHero.keyCode == 38){
-			hero.y -= 10;
+			hero.y -= 20;
 		}
 		else if (moveHero.keyCode == 32){
 			bullets.push({x: hero.x+6, y: hero.y-15})
